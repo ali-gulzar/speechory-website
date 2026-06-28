@@ -3,6 +3,7 @@
 /* Self-hosted variable fonts (no third-party requests, no layout shift) */
 @import "@fontsource-variable/fraunces";
 @import "@fontsource-variable/inter-tight";
+@import "@fontsource-variable/unbounded";
 
 /* ---- After Hours design tokens ---------------------------------------- */
 @theme {
@@ -22,6 +23,7 @@
 
   --font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
+  --font-brand: "Unbounded Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ---- Base ------------------------------------------------------------- */
