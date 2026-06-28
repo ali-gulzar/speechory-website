@@ -5,21 +5,21 @@
 @import "@fontsource-variable/inter-tight";
 @import "@fontsource-variable/unbounded";
 
-/* ---- After Hours design tokens ---------------------------------------- */
+/* ---- "Fresh Lime" design tokens (light, modern) ---------------------- */
 @theme {
-  --color-bg: #0c0a12; /* page ground — violet-biased near-black */
-  --color-surface: #16131e; /* cards, panels, nav pill */
-  --color-surface-2: #211c2c; /* inset wells (slider tracks, fields) */
-  --color-hairline: #2e2838; /* 1px borders / dividers */
+  --color-bg: #f4f4f2; /* light page ground */
+  --color-surface: #ffffff; /* white cards */
+  --color-surface-2: #ececE6; /* inset wells (slider track, fields) */
+  --color-hairline: #e4e4dd; /* hairline borders / dividers */
+  --color-sage: #c7caa7; /* muted sage accent / atmosphere */
 
-  --color-amber: #f4a638; /* the single accent */
-  --color-amber-deep: #c9781b; /* gradient stop / hover */
-  --color-gold-from: #ffd27a; /* top of amber gradient */
-  --color-gold-to: #e8852a; /* bottom of amber gradient */
+  --color-lime: #dcec4e; /* the single signature accent */
+  --color-lime-bright: #e9f659; /* brighter lime for hovers */
+  --color-good: #2fa56a; /* semantic green: online dot, booked tick */
 
-  --color-text: #f6f1e8; /* warm off-white */
-  --color-muted: #9a93a6; /* sub-copy, labels, captions */
-  --color-good: #5fd39b; /* semantic-only mint: online dot, booked tick */
+  --color-ink: #181c19; /* dark surfaces (the phone call-card, dark buttons) */
+  --color-text: #191314; /* primary text */
+  --color-muted: #6b6f63; /* secondary text (green-grey) */
 
   --font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
@@ -35,7 +35,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
@@ -44,12 +44,12 @@
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-amber) 35%, transparent);
+    background-color: var(--color-lime);
     color: var(--color-text);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-amber);
+    outline: 2px solid var(--color-text);
     outline-offset: 3px;
     border-radius: 3px;
   }
@@ -70,7 +70,7 @@
   }
 }
 
-/* ---- Atmosphere: amber bloom + film grain + ghost grid ---------------- */
+/* ---- Atmosphere: soft sage + lime blooms (clean, flat) ---------------- */
 .atmosphere {
   position: fixed;
   inset: 0;
@@ -78,68 +78,42 @@
   pointer-events: none;
   background:
     radial-gradient(
-      62rem 44rem at 82% -6%,
-      rgba(244, 166, 56, 0.16),
+      60rem 44rem at 88% -10%,
+      rgba(199, 202, 167, 0.55),
       transparent 60%
     ),
     radial-gradient(
-      52rem 40rem at 8% 108%,
-      rgba(76, 70, 110, 0.14),
-      transparent 60%
+      52rem 40rem at 2% 108%,
+      rgba(220, 236, 78, 0.22),
+      transparent 58%
     );
 }
 
-/* faint vertical column grid ghosting behind content */
-.atmosphere::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    to right,
-    var(--color-hairline) 0,
-    var(--color-hairline) 1px,
-    transparent 1px,
-    transparent 7.5rem
-  );
-  opacity: 0.05;
-  -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 35%, transparent 78%);
-  mask-image: radial-gradient(120% 80% at 50% 0%, #000 35%, transparent 78%);
+/* ---- Lime highlighter (headline keyword) ------------------------------ */
+.highlight {
+  background-color: var(--color-lime);
+  color: var(--color-text);
+  padding: 0.02em 0.2em;
+  border-radius: 0.22em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
-/* fixed, non-animated SVG turbulence grain — the editorial signature */
-.atmosphere::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.045;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
-}
-
-/* ---- Amber gradient text (headline keyword + big payoff number) ------- */
-.text-gold {
-  background-image: linear-gradient(
-    180deg,
-    var(--color-gold-from) 0%,
-    var(--color-gold-to) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  /* keeps the gradient legible if background-clip:text is unsupported */
-  -webkit-text-fill-color: transparent;
-}
-
-/* ---- Glass-ish surface card ------------------------------------------ */
+/* ---- White surface card ---------------------------------------------- */
 .card {
-  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-hairline);
   border-radius: 1.5rem;
   box-shadow:
-    0 1px 0 0 rgba(255, 255, 255, 0.03) inset,
-    0 30px 80px -40px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+    0 1px 2px rgba(25, 19, 20, 0.04),
+    0 26px 60px -42px rgba(25, 19, 20, 0.22);
+}
+
+/* ---- Dark "phone screen" call-card ------------------------------------ */
+.phone {
+  background-color: var(--color-ink);
+  border-radius: 1.25rem;
+  box-shadow: 0 30px 60px -30px rgba(24, 28, 25, 0.55);
 }
 
 /* ---- Live-call waveform (pure CSS equalizer) -------------------------- */
@@ -155,11 +129,7 @@
   min-width: 3px;
   max-width: 7px;
   border-radius: 999px;
-  background: linear-gradient(
-    180deg,
-    var(--color-gold-from),
-    var(--color-amber-deep)
-  );
+  background: var(--color-lime);
   height: 35%;
   transform-origin: center;
   animation: eq-bounce 1.15s ease-in-out infinite;
@@ -169,7 +139,7 @@
   0%,
   100% {
     height: 22%;
-    opacity: 0.7;
+    opacity: 0.75;
   }
   50% {
     height: 94%;
@@ -206,7 +176,7 @@
   }
 }
 
-/* ---- Entrance reveal (used by hero + estimator) ----------------------- */
+/* ---- Entrance reveal -------------------------------------------------- */
 .reveal {
   animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -233,7 +203,7 @@
   }
 }
 
-/* ---- Restyled range sliders (amber) ----------------------------------- */
+/* ---- Restyled range sliders (lime) ------------------------------------ */
 /* fill follows the thumb via the inline --pct custom property */
 .range {
   --pct: 50%;
@@ -244,8 +214,8 @@
   border-radius: 999px;
   background: linear-gradient(
     to right,
-    var(--color-gold-from) 0%,
-    var(--color-amber) var(--pct),
+    var(--color-lime) 0%,
+    var(--color-lime) var(--pct),
     var(--color-surface-2) var(--pct),
     var(--color-surface-2) 100%
   );
@@ -259,15 +229,9 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 32% 28%,
-    var(--color-gold-from),
-    var(--color-amber-deep)
-  );
-  border: 2px solid #100d16;
-  box-shadow:
-    0 0 0 4px rgba(244, 166, 56, 0.16),
-    0 0 20px 2px rgba(244, 166, 56, 0.45);
+  background: #ffffff;
+  border: 2px solid var(--color-text);
+  box-shadow: 0 2px 6px rgba(25, 19, 20, 0.2);
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
@@ -276,15 +240,9 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 32% 28%,
-    var(--color-gold-from),
-    var(--color-amber-deep)
-  );
-  border: 2px solid #100d16;
-  box-shadow:
-    0 0 0 4px rgba(244, 166, 56, 0.16),
-    0 0 20px 2px rgba(244, 166, 56, 0.45);
+  background: #ffffff;
+  border: 2px solid var(--color-text);
+  box-shadow: 0 2px 6px rgba(25, 19, 20, 0.2);
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
@@ -298,29 +256,25 @@
 .range:hover::-webkit-slider-thumb,
 .range:active::-webkit-slider-thumb {
   transform: scale(1.12);
-  box-shadow:
-    0 0 0 6px rgba(244, 166, 56, 0.2),
-    0 0 28px 4px rgba(244, 166, 56, 0.6);
+  box-shadow: 0 4px 12px rgba(25, 19, 20, 0.28);
 }
 .range:hover::-moz-range-thumb,
 .range:active::-moz-range-thumb {
   transform: scale(1.12);
-  box-shadow:
-    0 0 0 6px rgba(244, 166, 56, 0.2),
-    0 0 28px 4px rgba(244, 166, 56, 0.6);
+  box-shadow: 0 4px 12px rgba(25, 19, 20, 0.28);
 }
 .range:focus-visible {
   outline: none;
 }
 .range:focus-visible::-webkit-slider-thumb {
   box-shadow:
-    0 0 0 4px rgba(244, 166, 56, 0.25),
-    0 0 0 7px rgba(255, 210, 122, 0.55);
+    0 0 0 3px var(--color-bg),
+    0 0 0 5px var(--color-text);
 }
 .range:focus-visible::-moz-range-thumb {
   box-shadow:
-    0 0 0 4px rgba(244, 166, 56, 0.25),
-    0 0 0 7px rgba(255, 210, 122, 0.55);
+    0 0 0 3px var(--color-bg),
+    0 0 0 5px var(--color-text);
 }
 
 /* tabular figures for every live number so digits never reflow */

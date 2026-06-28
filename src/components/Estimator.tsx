@@ -101,8 +101,8 @@ export default function Estimator() {
                   className={
                     "rounded-full border px-3.5 py-1.5 text-sm transition " +
                     (active
-                      ? "border-amber bg-[color-mix(in_srgb,var(--color-amber)_18%,transparent)] text-text"
-                      : "border-hairline text-muted hover:border-[color-mix(in_srgb,var(--color-amber)_40%,var(--color-hairline))] hover:text-text")
+                      ? "border-lime bg-lime font-medium text-text"
+                      : "border-hairline bg-surface text-muted hover:border-lime hover:text-text")
                   }
                 >
                   {c.label}
@@ -113,35 +113,24 @@ export default function Estimator() {
         </div>
       </div>
 
-      {/* ---- Payoff ---- */}
-      <div className="reveal reveal-2 card relative overflow-hidden p-7">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full blur-3xl"
-          style={{
-            background:
-              "radial-gradient(circle,rgba(244,166,56,0.32),transparent 70%)",
-          }}
-        />
-
-        <p className="text-xs tracking-[0.18em] text-muted uppercase">
+      {/* ---- Payoff (lime "money" card) ---- */}
+      <div className="reveal reveal-2 rounded-3xl bg-lime p-7 shadow-[0_26px_60px_-42px_rgba(25,19,20,0.45)]">
+        <p className="text-xs tracking-[0.18em] text-text/60 uppercase">
           Revenue you&rsquo;d recover
         </p>
 
         <div aria-live="polite" aria-atomic="true">
           <div
-            className="tnum mt-3 leading-none"
+            className="tnum mt-3 leading-none text-text"
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "clamp(2.9rem,7vw,4.4rem)",
               fontWeight: 600,
-              color: "var(--color-gold-from)",
-              textShadow: "0 0 38px rgba(244,166,56,0.45)",
             }}
           >
             <NumberFlow value={monthly} format={USD} locales="en-US" />
           </div>
-          <p className="mt-2 text-muted">recovered every month</p>
+          <p className="mt-2 text-text/70">recovered every month</p>
           <p className="mt-4 text-lg text-text">
             that&rsquo;s{" "}
             <span className="tnum font-medium">
@@ -151,30 +140,26 @@ export default function Estimator() {
           </p>
         </div>
 
-        <p className="mt-3 text-sm text-muted">
+        <p className="mt-3 text-sm text-text/70">
           ={" "}
-          <span className="tnum text-text">{bookings}</span> appointments
-          you&rsquo;d otherwise never know called.
+          <span className="tnum font-medium text-text">{bookings}</span>{" "}
+          appointments you&rsquo;d otherwise never know called.
         </p>
 
-        <div className="mt-6 border-t border-hairline pt-5">
-          <p className="text-sm text-muted">
+        <div className="mt-6 border-t border-black/10 pt-5">
+          <p className="text-sm text-text/70">
             Speechory costs a fraction of one recovered booking a month.
           </p>
           <a
             href="#"
-            className="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-3 font-medium text-[#1a1206] shadow-[0_10px_30px_-10px_rgba(244,166,56,0.6)] transition hover:-translate-y-0.5"
-            style={{
-              backgroundImage:
-                "linear-gradient(180deg,var(--color-gold-from),var(--color-gold-to))",
-            }}
+            className="mt-4 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 font-medium text-white shadow-[0_8px_24px_-12px_rgba(25,19,20,0.6)] transition hover:-translate-y-0.5"
           >
             Start recovering these calls
             <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
 
-        <p className="mt-5 text-xs text-muted">
+        <p className="mt-5 text-xs text-text/55">
           Illustrative estimate based on your inputs — not a guarantee.
         </p>
       </div>

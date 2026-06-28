@@ -1,12 +1,6 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FFD27A"/>
-      <stop offset="1" stop-color="#E8852A"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="16" fill="#0C0A12"/>
-  <g fill="url(#amber)">
+  <rect width="64" height="64" rx="16" fill="#181C19"/>
+  <g fill="#DCEC4E">
     <rect x="14" y="26" width="5" height="12" rx="2.5"/>
     <rect x="23" y="18" width="5" height="28" rx="2.5"/>
     <rect x="32" y="11" width="5" height="42" rx="2.5"/>
