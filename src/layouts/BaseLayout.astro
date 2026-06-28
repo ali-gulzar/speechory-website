@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+import Seo from "../components/Seo.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Speechory — The AI receptionist that never misses a call",
+  description = "Speechory is the AI voice agent receptionist for dental and medical practices. It answers every call 24/7, books appointments while patients are still on the line, and hands you a clean schedule each morning.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo title={title} description={description} />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+    <slot />
+  </body>
+</html>

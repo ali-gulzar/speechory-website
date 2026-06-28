@@ -1,0 +1,346 @@
+@import "tailwindcss";
+
+/* Self-hosted variable fonts (no third-party requests, no layout shift) */
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/inter-tight";
+
+/* ---- After Hours design tokens ---------------------------------------- */
+@theme {
+  --color-bg: #0c0a12; /* page ground — violet-biased near-black */
+  --color-surface: #16131e; /* cards, panels, nav pill */
+  --color-surface-2: #211c2c; /* inset wells (slider tracks, fields) */
+  --color-hairline: #2e2838; /* 1px borders / dividers */
+
+  --color-amber: #f4a638; /* the single accent */
+  --color-amber-deep: #c9781b; /* gradient stop / hover */
+  --color-gold-from: #ffd27a; /* top of amber gradient */
+  --color-gold-to: #e8852a; /* bottom of amber gradient */
+
+  --color-text: #f6f1e8; /* warm off-white */
+  --color-muted: #9a93a6; /* sub-copy, labels, captions */
+  --color-good: #5fd39b; /* semantic-only mint: online dot, booked tick */
+
+  --font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+/* ---- Base ------------------------------------------------------------- */
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    min-height: 100svh;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-amber) 35%, transparent);
+    color: var(--color-text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 540;
+    letter-spacing: -0.015em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* ---- Atmosphere: amber bloom + film grain + ghost grid ---------------- */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      62rem 44rem at 82% -6%,
+      rgba(244, 166, 56, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      52rem 40rem at 8% 108%,
+      rgba(76, 70, 110, 0.14),
+      transparent 60%
+    );
+}
+
+/* faint vertical column grid ghosting behind content */
+.atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-hairline) 0,
+    var(--color-hairline) 1px,
+    transparent 1px,
+    transparent 7.5rem
+  );
+  opacity: 0.05;
+  -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 35%, transparent 78%);
+  mask-image: radial-gradient(120% 80% at 50% 0%, #000 35%, transparent 78%);
+}
+
+/* fixed, non-animated SVG turbulence grain — the editorial signature */
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* ---- Amber gradient text (headline keyword + big payoff number) ------- */
+.text-gold {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-gold-from) 0%,
+    var(--color-gold-to) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* keeps the gradient legible if background-clip:text is unsupported */
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- Glass-ish surface card ------------------------------------------ */
+.card {
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  border: 1px solid var(--color-hairline);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.03) inset,
+    0 30px 80px -40px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+/* ---- Live-call waveform (pure CSS equalizer) -------------------------- */
+.eq {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 56px;
+}
+
+.eq span {
+  flex: 1;
+  min-width: 3px;
+  max-width: 7px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--color-gold-from),
+    var(--color-amber-deep)
+  );
+  height: 35%;
+  transform-origin: center;
+  animation: eq-bounce 1.15s ease-in-out infinite;
+}
+
+@keyframes eq-bounce {
+  0%,
+  100% {
+    height: 22%;
+    opacity: 0.7;
+  }
+  50% {
+    height: 94%;
+    opacity: 1;
+  }
+}
+
+/* pulsing "live / online" dot */
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-good);
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-good);
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  75%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* ---- Entrance reveal (used by hero + estimator) ----------------------- */
+.reveal {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.reveal-1 {
+  animation-delay: 0.05s;
+}
+.reveal-2 {
+  animation-delay: 0.13s;
+}
+.reveal-3 {
+  animation-delay: 0.21s;
+}
+.reveal-4 {
+  animation-delay: 0.29s;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Restyled range sliders (amber) ----------------------------------- */
+/* fill follows the thumb via the inline --pct custom property */
+.range {
+  --pct: 50%;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-gold-from) 0%,
+    var(--color-amber) var(--pct),
+    var(--color-surface-2) var(--pct),
+    var(--color-surface-2) 100%
+  );
+  outline-offset: 6px;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    var(--color-gold-from),
+    var(--color-amber-deep)
+  );
+  border: 2px solid #100d16;
+  box-shadow:
+    0 0 0 4px rgba(244, 166, 56, 0.16),
+    0 0 20px 2px rgba(244, 166, 56, 0.45);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    var(--color-gold-from),
+    var(--color-amber-deep)
+  );
+  border: 2px solid #100d16;
+  box-shadow:
+    0 0 0 4px rgba(244, 166, 56, 0.16),
+    0 0 20px 2px rgba(244, 166, 56, 0.45);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.range::-moz-range-track {
+  background: transparent;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.range:hover::-webkit-slider-thumb,
+.range:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 0 6px rgba(244, 166, 56, 0.2),
+    0 0 28px 4px rgba(244, 166, 56, 0.6);
+}
+.range:hover::-moz-range-thumb,
+.range:active::-moz-range-thumb {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 0 6px rgba(244, 166, 56, 0.2),
+    0 0 28px 4px rgba(244, 166, 56, 0.6);
+}
+.range:focus-visible {
+  outline: none;
+}
+.range:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 4px rgba(244, 166, 56, 0.25),
+    0 0 0 7px rgba(255, 210, 122, 0.55);
+}
+.range:focus-visible::-moz-range-thumb {
+  box-shadow:
+    0 0 0 4px rgba(244, 166, 56, 0.25),
+    0 0 0 7px rgba(255, 210, 122, 0.55);
+}
+
+/* tabular figures for every live number so digits never reflow */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ---- Respect reduced motion globally --------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .eq span {
+    animation: none;
+    height: 52%;
+  }
+  .live-dot::after {
+    animation: none;
+  }
+  .reveal {
+    animation: none;
+  }
+  .range::-webkit-slider-thumb,
+  .range::-moz-range-thumb {
+    transition: none;
+  }
+}

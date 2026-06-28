@@ -1,0 +1,153 @@
+---
+// Hero — static, ships 0 KB JS. The "live call" waveform is pure CSS.
+const bars = Array.from({ length: 34 });
+---
+
+<header class="relative z-10">
+  <nav class="mx-auto flex max-w-6xl items-center justify-center px-6 py-7">
+    <a
+      href="#top"
+      class="flex items-center gap-3 font-semibold tracking-tight"
+    >
+      <span
+        class="grid h-9 w-9 place-items-center rounded-xl border border-hairline bg-surface"
+        aria-hidden="true"
+      >
+        <svg width="20" height="20" viewBox="0 0 64 64" fill="none">
+          <g fill="url(#g)">
+            <rect x="14" y="26" width="5" height="12" rx="2.5"></rect>
+            <rect x="23" y="18" width="5" height="28" rx="2.5"></rect>
+            <rect x="32" y="11" width="5" height="42" rx="2.5"></rect>
+            <rect x="41" y="20" width="5" height="24" rx="2.5"></rect>
+            <rect x="50" y="28" width="5" height="8" rx="2.5"></rect>
+          </g>
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#FFD27A"></stop>
+              <stop offset="1" stop-color="#E8852A"></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span class="text-2xl">Speechory</span>
+    </a>
+  </nav>
+</header>
+
+<section id="top" class="relative z-10">
+  <div
+    class="mx-auto grid max-w-6xl items-center gap-x-12 gap-y-14 px-6 pt-10 pb-20 lg:grid-cols-[1.22fr_1fr] lg:pt-16 lg:pb-28"
+  >
+    <!-- Left: the pitch -->
+    <div class="max-w-xl">
+      <span
+        class="reveal reveal-1 inline-flex items-center gap-2 rounded-full border border-hairline bg-surface px-3.5 py-1.5 text-[0.7rem] font-medium tracking-[0.18em] text-muted uppercase"
+      >
+        AI Voice Receptionist &middot; Dental &amp; Medical
+      </span>
+
+      <h1
+        class="reveal reveal-2 mt-6 text-balance text-[clamp(2.4rem,5.6vw,4.4rem)] leading-[0.98] font-medium"
+      >
+        The call you miss <span class="text-gold">after hours</span> is someone
+        else&rsquo;s patient by morning.
+      </h1>
+
+      <p
+        class="reveal reveal-3 mt-6 max-w-md text-[1.075rem] leading-relaxed text-muted"
+      >
+        Speechory answers every call 24/7, books the appointment while the
+        patient is still on the line, and hands you a clean schedule each
+        morning. No voicemail. No missed bookings. No new hire.
+      </p>
+
+      <div class="reveal reveal-3 mt-8">
+        <a
+          href="#estimator"
+          class="group inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-medium text-[#1a1206] shadow-[0_10px_30px_-8px_rgba(244,166,56,0.6)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-10px_rgba(244,166,56,0.75)]"
+          style="background-image:linear-gradient(180deg,var(--color-gold-from),var(--color-gold-to))"
+        >
+          See what you&rsquo;re missing
+          <span
+            class="transition-transform group-hover:translate-x-0.5"
+            aria-hidden="true">&rarr;</span
+          >
+        </a>
+      </div>
+
+      <p
+        class="reveal reveal-4 mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted"
+      >
+        <span>HIPAA compliant</span>
+        <span class="text-hairline" aria-hidden="true">&bull;</span>
+        <span>SOC 2 compliant</span>
+        <span class="text-hairline" aria-hidden="true">&bull;</span>
+        <span>24/7 available</span>
+      </p>
+    </div>
+
+    <!-- Right: the live-call card (thesis object) -->
+    <div class="reveal reveal-4 relative">
+      <div
+        class="absolute -inset-6 -z-10 rounded-[2rem] opacity-60 blur-2xl"
+        style="background:radial-gradient(60% 60% at 70% 20%,rgba(244,166,56,0.22),transparent 70%)"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="card p-6">
+        <div class="flex items-center justify-between">
+          <span
+            class="inline-flex items-center gap-2 text-sm font-medium text-good"
+          >
+            <span class="live-dot"></span>
+            Live &middot; answering 24/7
+          </span>
+          <span class="tnum text-sm text-muted">11:42 PM</span>
+        </div>
+
+        <div class="mt-5 flex items-center justify-between text-sm">
+          <span class="text-muted">Incoming call</span>
+          <span class="text-muted">After hours</span>
+        </div>
+
+        <!-- pure-CSS equalizer waveform -->
+        <div class="eq mt-3" role="img" aria-label="Live voice waveform">
+          {
+            bars.map((_, i) => (
+              <span style={`animation-delay:${(((i * 7) % 13) - 6) * 0.11}s`} />
+            ))
+          }
+        </div>
+
+        <!-- faux transcript -->
+        <div class="mt-6 space-y-3">
+          <div
+            class="max-w-[88%] rounded-2xl rounded-tl-md bg-surface-2 px-4 py-2.5 text-sm text-text"
+          >
+            &ldquo;Hi, I&rsquo;d like to book an appointment for a teeth filling
+            on Thursday.&rdquo;
+          </div>
+          <div
+            class="ml-auto max-w-[88%] rounded-2xl rounded-tr-md px-4 py-2.5 text-sm text-[#1a1206]"
+            style="background-image:linear-gradient(180deg,var(--color-gold-from),var(--color-gold-to))"
+          >
+            &ldquo;Of course &mdash; I can get you in Thursday at 10:15 AM. Shall
+            I book it?&rdquo;
+          </div>
+        </div>
+
+        <div
+          class="mt-5 flex items-center gap-2 border-t border-hairline pt-4 text-sm"
+        >
+          <span
+            class="grid h-5 w-5 place-items-center rounded-full bg-good text-[0.7rem] text-[#06130d]"
+            aria-hidden="true">&#10003;</span
+          >
+          <span class="text-text">Appointment booked</span>
+          <span class="text-muted">&middot; confirmation texted</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

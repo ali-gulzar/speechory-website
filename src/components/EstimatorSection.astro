@@ -1,0 +1,37 @@
+---
+import Estimator from "./Estimator.tsx";
+---
+
+<section id="estimator" class="relative z-10 scroll-mt-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="border-t border-hairline"></div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-20 lg:py-28">
+    <div class="max-w-2xl">
+      <div
+        class="flex items-center gap-3 text-xs tracking-[0.22em] text-muted uppercase"
+      >
+        <span class="text-amber">The math</span>
+        <span class="h-px w-8 bg-hairline" aria-hidden="true"></span>
+        <span class="tnum">02</span>
+      </div>
+
+      <h2
+        class="mt-5 text-balance text-[clamp(2rem,4.4vw,3.25rem)] leading-[1.02] font-medium"
+      >
+        Most of these calls happen when you&rsquo;re closed.
+      </h2>
+
+      <p class="mt-5 text-[1.05rem] leading-relaxed text-muted">
+        Drag the sliders to your practice. Every dollar here is a patient who
+        called when no one could pick up &mdash; and that Speechory would have
+        answered, booked, and added back to your schedule.
+      </p>
+    </div>
+
+    <div class="mt-12 lg:mt-16">
+      <Estimator client:visible />
+    </div>
+  </div>
+</section>
