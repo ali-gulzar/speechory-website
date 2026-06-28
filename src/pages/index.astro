@@ -19,7 +19,15 @@ import EstimatorSection from "../components/EstimatorSection.astro";
         <span class="text-hairline" aria-hidden="true">&bull;</span>
         AI voice receptionist for practices
       </span>
-      <span>&copy; {new Date().getFullYear()} Speechory</span>
+      <span class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <a class="transition hover:text-text" href="mailto:contact@speechory.com">
+          contact@speechory.com
+        </a>
+        <span class="text-hairline" aria-hidden="true">&bull;</span>
+        <a class="transition hover:text-text" href="tel:+19432593356">943-259-3356</a>
+        <span class="text-hairline" aria-hidden="true">&bull;</span>
+        <span>&copy; {new Date().getFullYear()} Speechory</span>
+      </span>
     </div>
   </footer>
 </BaseLayout>
