@@ -36,7 +36,7 @@ export default function Estimator() {
         <div>
           <div className="flex items-baseline justify-between gap-4">
             <label htmlFor="bookings" className="font-medium text-text">
-              Bookings Speechory recovers each month
+              Bookings Max recovers per month
             </label>
             <span
               className="tnum text-2xl leading-none font-medium text-text"
