@@ -40,7 +40,23 @@
 
   body {
     min-height: 100svh;
-    overflow-x: hidden;
+    /* clip (not hidden) so we don't turn <body> into a scroll container,
+       which can break momentum scrolling on iOS */
+    overflow-x: clip;
+    /* blooms live on the scrolling page background (attachment: scroll) instead
+       of a position:fixed layer, so mobile scroll stays composited & smooth */
+    background-image:
+      radial-gradient(
+        60rem 44rem at 88% 0,
+        rgba(199, 202, 167, 0.55),
+        transparent 60%
+      ),
+      radial-gradient(
+        52rem 40rem at 2% 100%,
+        rgba(220, 236, 78, 0.22),
+        transparent 58%
+      );
+    background-repeat: no-repeat;
   }
 
   ::selection {
@@ -70,24 +86,8 @@
   }
 }
 
-/* ---- Atmosphere: soft sage + lime blooms (clean, flat) ---------------- */
-.atmosphere {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      60rem 44rem at 88% -10%,
-      rgba(199, 202, 167, 0.55),
-      transparent 60%
-    ),
-    radial-gradient(
-      52rem 40rem at 2% 108%,
-      rgba(220, 236, 78, 0.22),
-      transparent 58%
-    );
-}
+/* Atmosphere blooms now live on the <body> background (see @layer base) so
+   they scroll with the page and never trigger fixed-layer repaints. */
 
 /* ---- Lime highlighter (headline keyword) ------------------------------ */
 .highlight {
@@ -128,21 +128,24 @@
   flex: 1;
   min-width: 3px;
   max-width: 7px;
+  height: 100%;
   border-radius: 999px;
   background: var(--color-lime);
-  height: 35%;
+  transform: scaleY(0.3);
   transform-origin: center;
   animation: eq-bounce 1.15s ease-in-out infinite;
 }
 
+/* animate transform (compositor) instead of height (layout) so the looping
+   waveform never blocks the main thread / scroll */
 @keyframes eq-bounce {
   0%,
   100% {
-    height: 22%;
+    transform: scaleY(0.22);
     opacity: 0.75;
   }
   50% {
-    height: 94%;
+    transform: scaleY(0.94);
     opacity: 1;
   }
 }
@@ -235,7 +238,6 @@
   border-radius: 999px;
   background: var(--color-lime);
   transition: width 130ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: width;
 }
 .slider-knob {
   position: absolute;
@@ -253,7 +255,6 @@
     box-shadow 0.15s ease;
   pointer-events: none;
   z-index: 2;
-  will-change: left;
 }
 .slider-input {
   position: absolute;
@@ -303,7 +304,7 @@
 @media (prefers-reduced-motion: reduce) {
   .eq span {
     animation: none;
-    height: 52%;
+    transform: scaleY(0.52);
   }
   .live-dot::after {
     animation: none;
