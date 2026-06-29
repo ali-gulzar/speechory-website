@@ -10,7 +10,7 @@ const USD: Intl.NumberFormatOptions = {
 const dollars = (n: number) => new Intl.NumberFormat("en-US", USD).format(n);
 
 const BOOKINGS = { min: 1, max: 60, step: 1, default: 12 };
-const VALUE = { min: 50, max: 1500, step: 25, default: 350 };
+const VALUE = { min: 50, max: 1500, step: 1, default: 350 };
 
 const CHIPS = [
   { label: "$150 cleaning", v: 150 },
@@ -18,8 +18,8 @@ const CHIPS = [
   { label: "$1,200 procedure", v: 1200 },
 ];
 
-const pct = (v: number, min: number, max: number) =>
-  `${((v - min) / (max - min)) * 100}%`;
+// 0..1 position of a value within its range — drives the slider fill + knob.
+const frac = (v: number, min: number, max: number) => (v - min) / (max - min);
 
 export default function Estimator() {
   const [bookings, setBookings] = useState(BOOKINGS.default);
@@ -46,18 +46,26 @@ export default function Estimator() {
               {bookings}
             </span>
           </div>
-          <input
-            id="bookings"
-            type="range"
-            className="range mt-4"
-            min={BOOKINGS.min}
-            max={BOOKINGS.max}
-            step={BOOKINGS.step}
-            value={bookings}
-            style={{ "--pct": pct(bookings, BOOKINGS.min, BOOKINGS.max) } as CSSProperties}
-            aria-valuetext={`${bookings} bookings per month`}
-            onChange={(e) => setBookings(Number(e.target.value))}
-          />
+          <div
+            className="slider mt-4"
+            style={{ "--p": frac(bookings, BOOKINGS.min, BOOKINGS.max) } as CSSProperties}
+          >
+            <div className="slider-track">
+              <div className="slider-fill" />
+            </div>
+            <div className="slider-knob" />
+            <input
+              id="bookings"
+              type="range"
+              className="slider-input"
+              min={BOOKINGS.min}
+              max={BOOKINGS.max}
+              step={BOOKINGS.step}
+              value={bookings}
+              aria-valuetext={`${bookings} bookings per month`}
+              onChange={(e) => setBookings(Number(e.target.value))}
+            />
+          </div>
           <p className="mt-2.5 text-sm text-muted">
             Most clinics miss far more after-hours calls than they realize.
           </p>
@@ -77,18 +85,26 @@ export default function Estimator() {
               {dollars(value)}
             </span>
           </div>
-          <input
-            id="value"
-            type="range"
-            className="range mt-4"
-            min={VALUE.min}
-            max={VALUE.max}
-            step={VALUE.step}
-            value={value}
-            style={{ "--pct": pct(value, VALUE.min, VALUE.max) } as CSSProperties}
-            aria-valuetext={`${dollars(value)} per appointment`}
-            onChange={(e) => setValue(Number(e.target.value))}
-          />
+          <div
+            className="slider mt-4"
+            style={{ "--p": frac(value, VALUE.min, VALUE.max) } as CSSProperties}
+          >
+            <div className="slider-track">
+              <div className="slider-fill" />
+            </div>
+            <div className="slider-knob" />
+            <input
+              id="value"
+              type="range"
+              className="slider-input"
+              min={VALUE.min}
+              max={VALUE.max}
+              step={VALUE.step}
+              value={value}
+              aria-valuetext={`${dollars(value)} per appointment`}
+              onChange={(e) => setValue(Number(e.target.value))}
+            />
+          </div>
           <div className="mt-3.5 flex flex-wrap gap-2">
             {CHIPS.map((c) => {
               const active = value === c.v;

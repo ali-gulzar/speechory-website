@@ -3,7 +3,7 @@
 /* Self-hosted variable fonts (no third-party requests, no layout shift) */
 @import "@fontsource-variable/fraunces";
 @import "@fontsource-variable/inter-tight";
-@import "@fontsource-variable/unbounded";
+@import "@fontsource-variable/syne";
 
 /* ---- "Fresh Lime" design tokens (light, modern) ---------------------- */
 @theme {
@@ -23,7 +23,7 @@
 
   --font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
-  --font-brand: "Unbounded Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-brand: "Syne Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ---- Base ------------------------------------------------------------- */
@@ -203,78 +203,94 @@
   }
 }
 
-/* ---- Restyled range sliders (lime) ------------------------------------ */
-/* fill follows the thumb via the inline --pct custom property */
-.range {
-  --pct: 50%;
-  -webkit-appearance: none;
-  appearance: none;
+/* ---- Buttery slider: custom fill + knob, native <input> for a11y ------ */
+/* `--p` (0..1) is set on .slider; the fill width + knob position derive
+   from it via calc(). Position easing is removed while actively dragging
+   (:active) so the drag tracks the pointer 1:1, while chip / keyboard /
+   track-click changes glide smoothly. */
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+.slider-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 10px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: var(--color-surface-2);
+  overflow: hidden;
+  pointer-events: none;
+}
+.slider-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(11px + var(--p, 0.5) * (100% - 22px));
+  border-radius: 999px;
+  background: var(--color-lime);
+  transition: width 130ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+}
+.slider-knob {
+  position: absolute;
+  top: 50%;
+  left: calc(11px + var(--p, 0.5) * (100% - 22px));
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--color-text);
+  box-shadow: 0 2px 6px rgba(25, 19, 20, 0.2);
+  transform: translate(-50%, -50%);
+  transition:
+    left 130ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.15s ease;
+  pointer-events: none;
+  z-index: 2;
+  will-change: left;
+}
+.slider-input {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 10px;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    var(--color-lime) 0%,
-    var(--color-lime) var(--pct),
-    var(--color-surface-2) var(--pct),
-    var(--color-surface-2) 100%
-  );
-  outline-offset: 6px;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
   cursor: pointer;
-}
-
-.range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid var(--color-text);
-  box-shadow: 0 2px 6px rgba(25, 19, 20, 0.2);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-}
-.range::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid var(--color-text);
-  box-shadow: 0 2px 6px rgba(25, 19, 20, 0.2);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-}
-.range::-moz-range-track {
   background: transparent;
-  height: 10px;
-  border-radius: 999px;
 }
-
-.range:hover::-webkit-slider-thumb,
-.range:active::-webkit-slider-thumb {
-  transform: scale(1.12);
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+}
+.slider-input::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  background: transparent;
+}
+.slider:hover .slider-knob {
   box-shadow: 0 4px 12px rgba(25, 19, 20, 0.28);
 }
-.range:hover::-moz-range-thumb,
-.range:active::-moz-range-thumb {
-  transform: scale(1.12);
-  box-shadow: 0 4px 12px rgba(25, 19, 20, 0.28);
-}
-.range:focus-visible {
-  outline: none;
-}
-.range:focus-visible::-webkit-slider-thumb {
+.slider:has(.slider-input:focus-visible) .slider-knob {
   box-shadow:
     0 0 0 3px var(--color-bg),
     0 0 0 5px var(--color-text);
 }
-.range:focus-visible::-moz-range-thumb {
-  box-shadow:
-    0 0 0 3px var(--color-bg),
-    0 0 0 5px var(--color-text);
+/* drag = track the pointer with no easing lag */
+.slider:has(.slider-input:active) .slider-fill,
+.slider:has(.slider-input:active) .slider-knob {
+  transition: none;
 }
 
 /* tabular figures for every live number so digits never reflow */
@@ -295,8 +311,8 @@
   .reveal {
     animation: none;
   }
-  .range::-webkit-slider-thumb,
-  .range::-moz-range-thumb {
+  .slider-fill,
+  .slider-knob {
     transition: none;
   }
 }
